@@ -1,3 +1,14 @@
+#![cfg_attr(all(target_env = "sgx", target_vendor = "mesalock"), feature(rustc_private))]
+
+#![cfg_attr(
+    any(not(feature = "std"),
+    all(feature = "mesalock_sgx",
+                not(target_env = "sgx"))), no_std)]
+
+#[cfg(all(feature = "std", feature = "mesalock_sgx", not(target_env = "sgx")))]
+#[macro_use]
+extern crate sgx_tstd as std;
+
 extern crate bigint;
 extern crate num_bigint;
 extern crate sputnikvm;

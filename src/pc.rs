@@ -3,6 +3,9 @@
 #[cfg(not(feature = "std"))]
 use alloc::vec::Vec;
 
+#[cfg(all(feature = "std", feature = "mesalock_sgx", not(target_env = "sgx")))]
+use std::prelude::v1::*;
+
 use bigint::M256;
 use util::opcode::Opcode;
 #[cfg(feature = "std")] use std::cmp::min;

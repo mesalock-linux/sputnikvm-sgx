@@ -3,6 +3,9 @@
 #[cfg(not(feature = "std"))]
 use alloc::vec::Vec;
 
+#[cfg(all(feature = "std", feature = "mesalock_sgx", not(target_env = "sgx")))]
+use std::prelude::v1::*;
+
 #[cfg(not(feature = "std"))] use alloc::rc::Rc;
 #[cfg(not(feature = "std"))] use alloc::boxed::Box;
 #[cfg(feature = "std")] use std::rc::Rc;
