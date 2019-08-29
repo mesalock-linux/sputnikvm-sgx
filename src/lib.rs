@@ -107,11 +107,24 @@
         unused_variables, non_shorthand_field_patterns,
         unreachable_code, missing_docs)]
 
-#![cfg_attr(not(feature = "std"), no_std)]
-#![cfg_attr(not(feature = "std"), feature(alloc))]
+//#![cfg_attr(not(feature = "std"), no_std)]
+//#![cfg_attr(not(feature = "std"), feature(alloc))]
+#![cfg_attr(all(target_env = "sgx", target_vendor = "mesalock"), feature(rustc_private))]
+
+#![cfg_attr(
+    any(not(feature = "std"),
+    all(feature = "mesalock_sgx",
+                not(target_env = "sgx"))), no_std)]
+
+#[cfg(all(feature = "std", feature = "mesalock_sgx", not(target_env = "sgx")))]
+#[macro_use]
+extern crate sgx_tstd as std;
 
 #[cfg(not(feature = "std"))]
 extern crate alloc;
+
+#[cfg(all(feature = "std", feature = "mesalock_sgx", not(target_env = "sgx")))]
+use std::prelude::v1::*;
 
 extern crate rlp;
 extern crate bigint;

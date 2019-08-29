@@ -7,16 +7,18 @@ authors = ["Wei Tang <hi@that.world>"]
 repository = "https://github.com/ETCDEVTeam/sputnikvm"
 
 [dependencies]
-sputnikvm = { version = "0.10", path = "../..", default-features = false }
-etcommon-bigint = { version = "0.2", default-features = false }
-num-bigint = "0.1"
+sputnikvm = { version = "0.10", git = "https://github.com/mesalock-linux/sputnikvm-sgx", default-features = false }
+etcommon-bigint = { version = "0.2", git = "https://github.com/mesalock-linux/etcommon-rs-sgx", default-features = false }
+num-bigint = { git = "https://github.com/mesalock-linux/num-bigint-sgx" }
+sgx_tstd = { rev = "v1.1.0", git = "https://github.com/apache/teaclave-sgx-sdk.git", optional = true }
 
 [dev-dependencies]
-etcommon-hexutil = "0.2"
+#etcommon-hexutil = "0.2"
 
 [features]
-default = ["std", "c-secp256k1"]
+default = ["std", "rust-secp256k1", "mesalock_sgx"]
 rlp = ["etcommon-bigint/rlp"]
-c-secp256k1 = ["sputnikvm/c-secp256k1"]
+#c-secp256k1 = ["sputnikvm/c-secp256k1"]
 rust-secp256k1 = ["sputnikvm/rust-secp256k1"]
 std = ["sputnikvm/std"]
+mesalock_sgx = ["sgx_tstd", "std"]
