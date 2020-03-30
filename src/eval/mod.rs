@@ -141,7 +141,7 @@ pub struct Runtime {
     pub block: HeaderParams,
 
     /// Hooks for context history.
-    pub context_history_hooks: Vec<Box<Fn(&Context)>>,
+    pub context_history_hooks: Vec<Box<dyn Fn(&Context)>>,
 }
 
 impl Runtime {
@@ -476,7 +476,7 @@ impl<M: Memory + Default, P: Patch> Machine<M, P> {
 
         self.state.used_gas += gas_cost - gas_stipend;
         self.state.memory_cost = memory_cost;
-        self.state.refunded_gas = self.state.refunded_gas.add_refund(gas_refund);;
+        self.state.refunded_gas = self.state.refunded_gas.add_refund(gas_refund);
 
         debug!("{:?} => {:?}", instruction, result);
         debug!("gas used: {:x?}", self.state.total_used_gas());

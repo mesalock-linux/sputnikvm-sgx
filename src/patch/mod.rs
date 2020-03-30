@@ -90,11 +90,11 @@ pub trait Patch {
     fn memory_limit() -> usize;
     /// Precompiled contracts at given address, with required code,
     /// and its definition.
-    fn precompileds() -> &'static [(Address, Option<&'static [u8]>, &'static Precompiled)];
+    fn precompileds() -> &'static [(Address, Option<&'static [u8]>, &'static dyn Precompiled)];
 }
 
 /// Default precompiled collections.
-pub static EMBEDDED_PRECOMPILEDS: [(Address, Option<&'static [u8]>, &'static Precompiled); 4] = [
+pub static EMBEDDED_PRECOMPILEDS: [(Address, Option<&'static [u8]>, &'static dyn Precompiled); 4] = [
     (H160([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0x01]),
      None,
      &ECREC_PRECOMPILED),
@@ -135,7 +135,7 @@ impl Patch for VMTestPatch {
     fn err_on_call_with_more_gas() -> bool { true }
     fn call_create_l64_after_gas() -> bool { false }
     fn memory_limit() -> usize { usize::max_value() }
-    fn precompileds() -> &'static [(Address, Option<&'static [u8]>, &'static Precompiled)] {
+    fn precompileds() -> &'static [(Address, Option<&'static [u8]>, &'static dyn Precompiled)] {
         &EMBEDDED_PRECOMPILEDS }
 }
 
@@ -165,7 +165,7 @@ impl Patch for EmbeddedPatch {
     fn err_on_call_with_more_gas() -> bool { false }
     fn call_create_l64_after_gas() -> bool { true }
     fn memory_limit() -> usize { usize::max_value() }
-    fn precompileds() -> &'static [(Address, Option<&'static [u8]>, &'static Precompiled)] {
+    fn precompileds() -> &'static [(Address, Option<&'static [u8]>, &'static dyn Precompiled)] {
         &EMBEDDED_PRECOMPILEDS
     }
 }
